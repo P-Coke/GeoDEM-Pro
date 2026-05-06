@@ -1,4 +1,4 @@
-# GeoDEM Pro
+# GeoDEM Pro by ZhangQi
 
 GeoDEM Pro 是一个基于 MATLAB 的桌面 GIS 原型系统，面向多时相点云 DEM 构建与地形形变分析。项目围绕“点云输入 - DEM 建模 - 多期差分 - 形变统计 - GIS 可视化 - 成果导出”组织，提供从数据处理到结果表达的完整工作流。
 
