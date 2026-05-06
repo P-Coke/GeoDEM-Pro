@@ -1,0 +1,44 @@
+# GeoDEM Pro generated outputs
+output/
+exports/
+reports/
+*.gdem
+*.mat
+*.fig
+*.log
+
+# MATLAB editor and build artifacts
+*.asv
+*.m~
+*.autosave
+slprj/
+codegen/
+*.mex*
+*.mexw64
+*.pdb
+*.obj
+*.lib
+*.dll
+
+# Local toolchains and caches
+.codex-tools/
+.uv-cache/
+.cache/
+.pytest_cache/
+__pycache__/
+venv/
+.venv/
+
+# Report/private drafting artifacts
+report/
+templates/
+private_templates/
+*.docx
+*.pdf
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/

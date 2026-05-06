@@ -1,0 +1,131 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+html, body {
+    margin: 0;
+    padding: 0;
+    background: #fff;
+    color: #111;
+    font-family: "Microsoft YaHei", "Segoe UI", Arial, sans-serif;
+    font-size: 13px;
+    overflow: auto;
+}
+.tree {
+    border: 1px solid #c8cdd3;
+    min-height: 100vh;
+    box-sizing: border-box;
+    background: #fff;
+}
+.row {
+    height: 24px;
+    line-height: 24px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    box-sizing: border-box;
+    cursor: default;
+    user-select: none;
+}
+.group {
+    padding-left: 10px;
+    font-weight: 600;
+    background: #f4f6f8;
+}
+.layer {
+    padding-left: 18px;
+}
+.layer.selected {
+    background: #dcecff;
+}
+.row:hover {
+    background: #eef5ff;
+}
+.visibility {
+    width: 10px;
+    flex: 0 0 10px;
+    color: #2364a4;
+    font-size: 11px;
+    text-align: center;
+}
+.icon {
+    width: 16px;
+    height: 16px;
+    flex: 0 0 16px;
+}
+.label {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+</style>
+</head>
+<body>
+<div id="tree" class="tree"></div>
+<script>
+function setup(htmlComponent) {
+    function render(data) {
+        const tree = document.getElementById("tree");
+        tree.innerHTML = "";
+        if (!data || !data.items) {
+            return;
+        }
+        const items = Array.isArray(data.items) ? data.items : [data.items];
+        items.forEach((item) => {
+            const row = document.createElement("div");
+            row.className = "row " + item.type + (item.selected ? " selected" : "");
+            row.title = item.text || "";
+            if (item.type === "layer") {
+                const visibility = document.createElement("span");
+                visibility.className = "visibility";
+                visibility.textContent = item.visible ? "✓" : "";
+                row.appendChild(visibility);
+
+                if (item.icon) {
+                    const icon = document.createElement("img");
+                    icon.className = "icon";
+                    icon.src = item.icon;
+                    icon.alt = "";
+                    row.appendChild(icon);
+                }
+
+                const label = document.createElement("span");
+                label.className = "label";
+                label.textContent = item.text || "";
+                row.appendChild(label);
+            } else {
+                const label = document.createElement("span");
+                label.className = "label";
+                label.textContent = item.text || "";
+                row.appendChild(label);
+            }
+            if (item.type === "layer") {
+                row.addEventListener("click", function () {
+                    htmlComponent.Data = { action: "select", layer: item.layer || "", tick: Date.now() };
+                });
+                row.addEventListener("contextmenu", function (event) {
+                    event.preventDefault();
+                    htmlComponent.Data = {
+                        action: "context",
+                        layer: item.layer || "",
+                        x: event.clientX,
+                        y: event.clientY,
+                        tick: Date.now()
+                    };
+                });
+            }
+            tree.appendChild(row);
+        });
+    }
+    htmlComponent.addEventListener("DataChanged", function () {
+        render(htmlComponent.Data);
+    });
+    render(htmlComponent.Data);
+}
+</script>
+</body>
+</html>

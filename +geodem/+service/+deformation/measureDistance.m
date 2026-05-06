@@ -1,0 +1,16 @@
+function measurement = measureDistance(points)
+%MEASUREDISTANCE Compute segment and total distances for XY points.
+
+points = double(points);
+if size(points, 2) ~= 2 || size(points, 1) < 2
+    error('GeoDEM:InvalidMeasurePoints', 'Measurement requires at least two [x y] points.');
+end
+deltas = diff(points, 1, 1);
+segmentDistance = hypot(deltas(:, 1), deltas(:, 2));
+measurement = struct( ...
+    'Points', points, ...
+    'SegmentDistance', segmentDistance, ...
+    'TotalDistance', sum(segmentDistance), ...
+    'StartPoint', points(1, :), ...
+    'EndPoint', points(end, :));
+end
